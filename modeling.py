@@ -219,19 +219,11 @@ if __name__=="__main__":
 
     bagging_clf = SVC(kernel='poly', C=0.01, gamma=0.6, probability=True)
     bagging_clf.fit(X, y)
-    print("0.6 is",cross_val_score(bagging_clf, X, y, cv=5))
-    sum = 0
-    for i in range(5):
-        sum += cross_val_score(bagging_clf, X, y, cv=5)[i]
-    print(sum)
-
-
-
-
+    print("svc is",cross_val_score(bagging_clf, X, y, cv=5))
 
     from sklearn.svm import SVC
     from sklearn.model_selection import GridSearchCV
-
+    #网格搜索，SVC调参
     # model = SVC(probability=True)
     # # param_grid = [{'kernel': ['linear'], 'C': [0.01, 0.1, 1, 10,100]},
     #               # {'kernel': ['rbf'], 'C': [0.01, 0.1, 1, 10,100], 'gamma': [0.5]},
@@ -248,11 +240,8 @@ if __name__=="__main__":
     # print('网格搜索-最佳参数：', grid.best_params_)  # 获取最佳度量值时的代定参数的值。是一个字典
     # print('网格搜索-最佳模型：', grid.best_estimator_)  # 获取最佳度量时的分类器模型
 
-
-
-
     test = df_test.filter(regex='Age_.*|SibSp|Parch|Fare_.*|Cabin_.*|Embarked_.*|Sex_.*|Pclass.*')
     predictions = bagging_clf.predict(test)
-    # print(predictions,type(predictions))
+    # print(predictions)
     result = pd.DataFrame({'PassengerId':data_test['PassengerId'].values, 'Survived':predictions.astype(np.int32)})
     # result.to_csv(r"C:\Users\daigang\Desktop\svm_classification_predictions.csv", index=False)
